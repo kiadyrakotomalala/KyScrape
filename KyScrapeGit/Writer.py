@@ -35,13 +35,10 @@ class WriterWorker (threading.Thread):
                 pass
     
     def treat(self):
-        try:
-            print 'Writing {0}'.format(self.element.url)
-            self.element.store()
-            self.element.setFinished()
-        except Exception as e:
-            print e
-            
+        print 'Writing {0}'.format(self.element.url)
+        self.element.store()
+        self.element.setFinished()
+
 
 class WriterMotor(threading.Thread):
     def __init__(self):

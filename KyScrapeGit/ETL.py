@@ -1,6 +1,5 @@
 '''
 Created on 9 sept. 2015
-
 @author: RAVAHATRA Kiady
 '''
 
@@ -21,7 +20,16 @@ def loadData(path):
             pass
     return allData
 
-def writeData():
-    etl.tocsv([x.values() for x in loadData('result')], 'example.csv')
+def getTable(path):
+    return etl.fromdicts(loadData(path))
 
-writeData()
+def writeDataToCsv(path, output):
+    etl.tocsv(getTable(path), output)
+
+def writeDataToJson(path, output):
+    etl.tojson(getTable(path), output)
+
+def writeDataToXls(path, output):
+    etl.toxls(getTable(path), output, 'sheet1', 'utf-8')
+
+writeDataToXls('result', 'result.xls')

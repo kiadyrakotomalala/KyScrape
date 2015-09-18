@@ -10,6 +10,7 @@ class Element():
         self.url = url
         self.finished = False
         self.data = {}
+        self.error = False
 
     def setFinished(self):
         self.finished = True
