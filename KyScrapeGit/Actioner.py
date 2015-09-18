@@ -7,6 +7,7 @@ import threading
 import Queue
 from Configuration import Configuration
 from Element import Element
+import time
 
 class ActionerWorker (threading.Thread):
     def __init__(self, threadID, name, q, multiThreadMotor):
@@ -21,7 +22,7 @@ class ActionerWorker (threading.Thread):
         self.process_data(self.name, self.q)
 
     def process_data(self,threadName, q):
-        while True:
+        while not self.multiThreadMotor.exitFlag:
             self.multiThreadMotor.queueLock.acquire()
     
             if not self.multiThreadMotor.workQueue.empty():
@@ -34,6 +35,7 @@ class ActionerWorker (threading.Thread):
     
     def treat(self):
         print 'Actioning {0}'.format(self.element.url)
+        self.multiThreadMotor.isActionning = True
         temp = self.configuration.actionList[self.element.deep](self.element.soup)
         if isinstance(temp, list):
             for url in temp:
@@ -44,6 +46,7 @@ class ActionerWorker (threading.Thread):
             self.multiThreadMotor.main.writer.addElement(self.element)
             
         self.element.setFinished()
+        self.multiThreadMotor.isActionning = False
 
 
 
@@ -58,11 +61,7 @@ class ActionerMotor(threading.Thread):
         self.threads = []
         self.threadID = 1
         self.exitFlag = 0
-        #Add element into Queue Object
-#         self.queueLock.acquire()
-#         for element in listTask:
-#             self.workQueue.put(element)
-#         self.queueLock.release()
+        self.isActionning = False
     
     
     def addElement(self, element):
@@ -79,8 +78,15 @@ class ActionerMotor(threading.Thread):
             self.threads.append(thread)
             self.threadID += 1
                 
-        while not self.workQueue.empty():
-            pass
+        while True:
+            if (not self.workQueue.empty()) or self.main.downloader.isDownloading or self.main.actioner.isActionning or self.main.writer.isWriting:  
+                pass
+            else:
+                time.sleep(5)
+                if (not self.workQueue.empty()) or self.main.downloader.isDownloading or self.main.actioner.isActionning or self.main.writer.isWriting:  
+                    pass
+                else:
+                    break
                
         # Notify threads it's time to exit
         self.exitFlag = 1
@@ -88,4 +94,4 @@ class ActionerMotor(threading.Thread):
         for t in self.threads:
             t.join()
         
-        print 'end actioner'
+        print 'Stop actioner'

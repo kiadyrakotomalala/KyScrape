@@ -2,13 +2,14 @@
 Created on 5 sept. 2015
 @author: RAVAHATRA Kiady
 '''
-
+import sys
 from Downloader import DownloaderMotor
 import Actioner 
 import Writer
 import os
 from Element import Element
 from Configuration import Configuration
+import time
 
 class Main():
     def __new__(cls):
@@ -21,7 +22,7 @@ class Main():
         self.downloader.start()
         self.actioner = Actioner.ActionerMotor(self)
         self.actioner.start()
-        self.writer = Writer.WriterMotor()
+        self.writer = Writer.WriterMotor(self)
         self.writer.start()
 
 main = Main()

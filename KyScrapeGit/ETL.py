@@ -31,5 +31,3 @@ def writeDataToJson(path, output):
 
 def writeDataToXls(path, output):
     etl.toxls(getTable(path), output, 'sheet1', 'utf-8')
-
-writeDataToXls('result', 'result.xls')

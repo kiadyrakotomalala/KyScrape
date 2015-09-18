@@ -24,4 +24,4 @@ class Configuration():
         self.outputDirectory = 'result'
 
 #Use selenium or not (selenium needed for js rendered page)
-        self.selenium = True
+        self.selenium = False

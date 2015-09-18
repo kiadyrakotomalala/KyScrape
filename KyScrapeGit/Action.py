@@ -17,21 +17,21 @@ def Action1(soup):
     for li in soup.findAll('li', class_ = 'list_thm'):
         themeList.append(li.find('a')['href'].replace('/.','http://www.annumada.com'))
 
-    return themeList
+    return themeList[:1]
 
 def Action2(soup):    
     print 'Action2'
     rubriqueList = []
     for li in soup.findAll('li', class_ = 'list_rubrique'):
         rubriqueList.append(li.find('a')['href'].replace('/.','http://www.annumada.com'))
-    return rubriqueList
+    return rubriqueList[:1]
 
 def Action3(soup):
     print 'Action3'
     villeList = []
     for li in soup.findAll('li', class_ = 'list_ville'):
         villeList.append(li.find('a')['href'].replace('/.','http://www.annumada.com'))
-    return villeList
+    return villeList[:1]
 
 def Action4(soup):
     print 'Action4'
