@@ -13,7 +13,6 @@ from Configuration import Configuration
 def getPage(url):
     return BeautifulSoup(requests.get(url).text)
 
-
 class DownloaderWorker (threading.Thread):
     def __init__(self, threadID, name, q, multiThreadMotor):        
         threading.Thread.__init__(self)

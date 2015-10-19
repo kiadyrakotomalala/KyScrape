@@ -17,31 +17,32 @@ def Action1(soup):
     for li in soup.findAll('li', class_ = 'list_thm'):
         themeList.append(li.find('a')['href'].replace('/.','http://www.annumada.com'))
 
-    return themeList[:1]
+    return themeList
 
 def Action2(soup):    
     print 'Action2'
     rubriqueList = []
     for li in soup.findAll('li', class_ = 'list_rubrique'):
         rubriqueList.append(li.find('a')['href'].replace('/.','http://www.annumada.com'))
-    return rubriqueList[:1]
+    return rubriqueList
 
 def Action3(soup):
     print 'Action3'
     villeList = []
     for li in soup.findAll('li', class_ = 'list_ville'):
         villeList.append(li.find('a')['href'].replace('/.','http://www.annumada.com'))
-    return villeList[:1]
+    return villeList
 
 def Action4(soup):
     print 'Action4'
     for fieldset in soup.findAll('fieldset', class_="display_list"):
 
 #Put here all fields for the data        
-        dataField = getDataField(['name', 'rubrique', 'adresse', 'telephone', 'fax', 'mail'])
+        dataField = getDataField(['name', 'rubrique', 'adresse', 'telephone', 'fax', 'mail','ville'])
 
         dataField['name'] = fieldset.find('legend').get_text().encode('utf-8')
         dataField['rubrique'] = [x.get_text() for x in fieldset.findAll('li', class_= 'rubrique')]
+        
         try:
             dataField['adresse'] = fieldset.find('li', class_ = 'address').get_text()
         except:
@@ -58,6 +59,9 @@ def Action4(soup):
             dataField['mail'] = fieldset.find('li', class_ = 'mailaka').find('a')['title']
         except:
             pass
-        
+        try:
+            dataField['ville'] = soup.find('div', class_="display_clear2").find('strong').get_text()
+        except:
+            pass
         
     return dataField

@@ -29,5 +29,6 @@ def writeDataToCsv(path, output):
 def writeDataToJson(path, output):
     etl.tojson(getTable(path), output)
 
-def writeDataToXls(path, output):
-    etl.toxls(getTable(path), output, 'sheet1', 'utf-8')
+def writeDataToXls(path, output, sheetName, encoding = 'utf-8'):
+    etl.toxls(getTable(path), output, sheetName, encoding)
+
